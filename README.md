@@ -1,4 +1,5 @@
 # FILL：A Filecoin Liquidity Pool for Storage Providers
+
 ## Abstract
 Storage Providers (SPs) in the Filecoin network play critical roles in storing data and maintaining network security. In return, SPs earn transaction fees and block rewards, the probability of which is proportional to the amount of storage the storage provider contributes to the Filecoin network. Like most of the permissionless blockchain networks, one of the security mechanisms for the Filecoin is an upfront investment in resources, the Initial Pledge Collateral. In order to participate in the consensus, certain amount of FIL is needed by SPs ahead of the time, which forms the market demand of FIL borrowing for storage providing.
 
@@ -32,6 +33,14 @@ With the design, entry barrier is significantly lowered not only for the SPs to 
 ## Design Architecture
 The subject of the design is a smart contract that executes transactions on the blockchain automatically. The proposed smart contract is a liquidity pool and a lending market, which calculates interest rate calculations, manages liquidity and provides clearing and settlement. This smart contract mainly interacts with two types of users: 1) lenders, which is usually the holders of the FIL tokens that hopes to earn interest; 2) borrowers, which is the storage provider who are willing to borrow funds to supplement the collateral required for storage power growth.
 
+<p align="center">
+<img width="905" alt="Screen Shot 2023-01-03 at 5 40 31 PM" src="https://user-images.githubusercontent.com/29261438/210332586-322625ce-bf07-429e-b8e3-744bc7862deb.png">
+</p>
+
+Figure 1[^1]: Relationship between lenders, borrowers and the liquidity pool
+
+[^1]: Icon image: Flaticon.com
+
 ### 2.1 Deposits and Redemptions by FIL Token Holders
 The FILL Liquidity Pool smart contract is an open contract that allows any market participants to deposit/withdraw any amount of FIL assets directly into/from the contract at any time. Whenever a FIL holder successfully deposited FIL into the contract, a certificate of interest would be awarded. This process can also be seen as a purchase/redemption activity of equity. The certificate token minted is acting as a proof of deposit and a vehicle of dividend allocation.
 
@@ -42,7 +51,9 @@ Deposit and withdraw activities are always open and are protected by mechanisms 
 ### 2.2 Borrowings and Repayments by Storage Providers
 In addition to deposits and redemptions, the FILL Liquidity Pool smart contract also processes requests for borrowings and repayments. The SPs with financing needs are also able to borrow FIL tokens from the smart contract by pledging their account balance and future income. 
 
-The maximum amount of FIL a Storage Provider can borrow is associated with its pledgable account balance. In the existing lending protocols, over collateralization such as 150% or even 200% is required to protect the investors and the protocols from default. Usually, the collaterals are the one or a few of other mainstream cryptocurrencies. FILL Liquidity Pool smart contract basically follows the similar risk management tactic but instead, taking SP’s account balance as collateral. The SPs have options to choose the portion of account balance they would like to pledge and, exchange for the loan quota. Due to the special characteristics of the Beneficiary Address, the future income from Storage Providing, on top of the existing account balance, would also be acting as collaterals to mitigate the default risks. As a result, the current minimum collateralization ratio could be set as 120% to for initiation. As soon as borrowing request received, the SP’s Beneficiary Address began to transfer to smart contract’s address. Starting this point, account balance and all future earnings of the SP will be pledged by the smart contract as collateral. Whenever the pledging process accomplished, the SP would receive the FIL token that intended to borrow. 
+The maximum amount of FIL a Storage Provider can borrow is associated with its pledgable account balance. In the existing lending protocols, over collateralization such as 150% or even 200% is required to protect the investors and the protocols from default. Usually, the collaterals are the one or a few of other mainstream cryptocurrencies. FILL Liquidity Pool smart contract basically follows the similar risk management tactic but instead, taking SP’s account balance as collateral. The SPs have options to choose the portion of account balance they would like to pledge and, exchange for the loan quota. Due to the special characteristics of the Beneficiary Address[^2], the future income from Storage Providing, on top of the existing account balance, would also be acting as collaterals to mitigate the default risks. As a result, the current minimum collateralization ratio could be set as 120% to for initiation. As soon as borrowing request received, the SP’s Beneficiary Address began to transfer to smart contract’s address. Starting this point, account balance and all future earnings of the SP will be pledged by the smart contract as collateral. Whenever the pledging process accomplished, the SP would receive the FIL token that intended to borrow. 
+
+[^2]: Only the Beneficiary role would be able to withdraw FIL from an SP node. [FIP-0029](https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0029.md) proposed to re-assign the node control and financial benefit to different roles in order to provide more flexibilities for potential Filecoin financial market.
 
 The interest is calculated by the smart contract automatically and determined solely by the utilization rate. Utilization rate is the total amount of FIL borrowed in a share of total liquidity in the FIL lending pool at a certain point of time. High utilization reflects high demand in liquidity pool, which introduces high borrowing interest rate. Low utilization means low demand, which supports low cost of capital to attract borrowers. The borrowing rate model allows for calibration of interest rates at key points and the parameters should be mutually decided by DAO. The loan interest is compounded continuously and accrued every epoch, but is paid along with the loan principal repayments. The detailed discussion on the borrowing interest rate model is outlined in section 3.1 Borrowing Interest Rate.
 
