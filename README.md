@@ -1,8 +1,0 @@
-# Abstract
-
-Storage Providers (SPs) in the Filecoin network play critical roles in storing data and maintaining network security. In return, SPs earn transaction fees and block rewards, the probability of which is proportional to the amount of storage the storage provider contributes to the Filecoin network. Like most of the permissionless blockchain networks, one of the security mechanisms for the Filecoin is an upfront investment in resources, the Initial Pledge Collateral. In order to participate in the consensus, certain amount of FIL is needed by SPs ahead of the time, which forms the market demand of FIL borrowing for storage providing.
-
-FILL is to be designed as a liquidity pool that will be implemented on FVM (Filecoin Virtual Machine) as a fully open-sourced, decentralized, algorithm-based lending platform. FILL facilitates a market for FIL token holders to deposit for passive interest income, and for SPs to borrow FIL for storage providing. 
-
-This document serves as a White Paper, which describes the features and functionality of the FILL liquidity pool. It is an overview of the background and demand for the FIL lending market, technical architecture and economic design of the lending protocol, the road map as well as other administrative aspects. Introduction outlines the background information of FIlecoin network and the characteristics of FILL liquidity pool, which justifies the market demand of FIL lending for storage providing. Design Architecture demonstrates the structure of the smart contract and how the protocol is implemented. The borrowing interest rate determination, deposit income distribution and governance token design are discussed under the Economics section, followed by Governance, Risk Management and Roadmap. 
-
